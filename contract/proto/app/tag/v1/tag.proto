@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package app.tag.v1;
+
+option java_multiple_files = true;
+
+// 메모 내용에 맞는 태그. tags 서버가 구현하고, notes 가 메모를 저장하기 전에 부른다
+service TagService {
+  // 규칙의 키워드가 text 에 들어 있으면 그 태그 (대소문자 무시, 같은 태그는 한 번, 규칙 순서)
+  rpc Suggest(SuggestRequest) returns (SuggestResponse);
+}
+
+message SuggestRequest {
+  string text = 1;
+}
+
+message SuggestResponse {
+  repeated string tags = 1;
+}

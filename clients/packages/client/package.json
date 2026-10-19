@@ -1,0 +1,17 @@
+{
+  "name": "@app/client",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@app/contract": "workspace:*"
+  },
+  "devDependencies": {
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:"
+  },
+  "scripts": {
+    "lint": "oxlint && oxfmt --check",
+    "format": "oxfmt"
+  }
+}

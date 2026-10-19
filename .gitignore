@@ -1,0 +1,23 @@
+node_modules/
+dist/
+.env
+.DS_Store
+.idea/
+build/
+.gradle/
+.expo/
+target/
+clients/apps/desktop/src-tauri/gen/
+.next/
+next-env.d.ts
+*.tsbuildinfo
+__pycache__/
+.venv/
+.pytest_cache/
+.ruff_cache/
+servers/tags/gen/
+
+# 에이전트 개인 설정
+.claude/settings.local.json
+CLAUDE.local.md
+.claude/worktrees/

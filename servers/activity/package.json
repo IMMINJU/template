@@ -1,0 +1,11 @@
+{
+  "name": "@app/activity",
+  "private": true,
+  "scripts": {
+    "dev": "./gradlew :core:core-api:bootRun",
+    "test": "./gradlew test",
+    "gen": "./gradlew :core:core-api:openapi -q",
+    "lint": "./gradlew checkFormat compileJava compileTestJava -q",
+    "format": "./gradlew format -q"
+  }
+}

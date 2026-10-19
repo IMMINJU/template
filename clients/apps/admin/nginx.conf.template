@@ -1,0 +1,25 @@
+# 이 앱의 이미지. ${TAGS_URL} · ${ACTIVITY_URL} · ${TEMPLATES_URL} 은 컨테이너가 뜰 때 채운다 (기본값은 Dockerfile, compose 의 서버 이름)
+server {
+    listen 8080;
+    root /usr/share/nginx/html;
+
+    # 이 앱이 부르는 서버만 둔다 (개발 때의 vite 프록시와 같은 표). 없는 서버를 적으면 nginx 가 뜨지 않는다
+    location /api/tags {
+        proxy_pass ${TAGS_URL};
+    }
+    location /api/activity {
+        proxy_pass ${ACTIVITY_URL};
+    }
+    location /api/templates {
+        proxy_pass ${TEMPLATES_URL};
+    }
+    # 표에 없는 /api 는 서버들과 같은 JSON 404
+    location /api/ {
+        default_type application/json;
+        return 404 '{"error":"not found"}';
+    }
+
+    location / {
+        try_files $uri /index.html;
+    }
+}

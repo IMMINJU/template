@@ -1,0 +1,67 @@
+{
+  "openapi" : "3.1.0",
+  "info" : {
+    "title" : "activity",
+    "version" : "0.0.0"
+  },
+  "servers" : [ {
+    "url" : "/"
+  } ],
+  "paths" : {
+    "/api/activity" : {
+      "get" : {
+        "operationId" : "listActivity",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ActivityList"
+                }
+              }
+            },
+            "description" : "OK"
+          }
+        },
+        "tags" : [ "activity-controller" ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Activity" : {
+        "type" : "object",
+        "properties" : {
+          "action" : {
+            "type" : "string"
+          },
+          "at" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "noteId" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        },
+        "required" : [ "action", "at", "id", "noteId" ]
+      },
+      "ActivityList" : {
+        "type" : "object",
+        "properties" : {
+          "activities" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Activity"
+            }
+          }
+        },
+        "required" : [ "activities" ]
+      }
+    }
+  }
+}

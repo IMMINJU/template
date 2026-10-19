@@ -1,0 +1,47 @@
+packages:
+  - contract
+  - servers/*
+  - clients/apps/*
+  - clients/packages/*
+
+# 설치 스크립트는 돌리지 않는다. 없어도 동작하는 것만 여기 끈다:
+# buf = 바이너리 연결 최적화, vue-demi = Vue 2/3 파일 바꿔 끼우기 (기본이 Vue 3)
+allowBuilds:
+  '@bufbuild/buf': false
+  vue-demi: false
+
+# 클라이언트 의존성 버전은 여기 한 곳에서 (package.json 에는 "catalog:"). 서버는 서로 독립이라 각자 적는다
+catalog:
+  '@tanstack/react-query': ^5.104.3
+  '@tanstack/vue-query': ^5.104.3
+  '@tauri-apps/cli': ^2.12.3
+  '@tauri-apps/plugin-http': ^2.8.3
+  '@types/node': ^24
+  '@types/react': ^19.3.0
+  '@types/react-dom': ^19.3.0
+  '@vitejs/plugin-react': ^6.1.2
+  '@vitejs/plugin-vue': ^6.0.10
+  next: 16.4.2
+  oxfmt: ^0.73.0
+  oxlint: ^1.88.0
+  # react · react-dom 은 정확히 같은 버전이어야 한다 (다르면 브라우저에서 실행할 때 실패). Expo 가 정한 버전에 맞춘다
+  react: 19.3.0
+  react-dom: 19.3.0
+  typescript: ^7.0.2
+  vite: ^8.3.4
+  vue: ^3.5.44
+  vue-tsc: ^3.3.13
+
+catalogs:
+  # vue-tsc · next build · openapi-typescript 는 TypeScript 의 JS API 를 쓴다 (TS 7 에는 아직 없어 6 을 쓴다)
+  ts6:
+    typescript: ~6.0.3
+  # Expo SDK 가 정한 버전. 올릴 때는 npx expo install --fix (하루가 안 된 버전이라 pnpm 이 막으면 그 전 버전으로)
+  expo:
+    '@types/react': ~19.3.0
+    expo: ~58.0.12
+    expo-status-bar: ~58.0.3
+    react: 19.3.0
+    react-dom: 19.3.0
+    react-native: 0.88.0
+    typescript: ~6.0.3

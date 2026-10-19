@@ -1,0 +1,22 @@
+{
+  "name": "@app/contract",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./gen/*": "./gen/*"
+  },
+  "scripts": {
+    "gen:proto": "buf lint && buf generate",
+    "gen:types": "for f in openapi/*.json; do openapi-typescript \"$f\" -o \"${f%.json}.ts\"; done"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^2.16.0"
+  },
+  "devDependencies": {
+    "@bufbuild/buf": "^1.74.0",
+    "@bufbuild/protoc-gen-es": "^2.16.0",
+    "openapi-typescript": "^7.13.0",
+    "typescript": "catalog:ts6"
+  }
+}

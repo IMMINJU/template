@@ -1,0 +1,24 @@
+# 서버가 쓰는 인프라. 개발 · 테스트 · CI 가 같이 쓴다: pnpm infra (= docker compose -f docker/docker-compose.middleware.yaml up -d --wait)
+name: initializer-stack
+
+services:
+  db:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+    volumes:
+      - db:/var/lib/postgresql
+      # 서버마다 자기 DB 와 테스트 DB. 볼륨을 처음 만들 때만 돈다
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      # 이 맥에서만 (인증이 개발용 app/app 이다)
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      # TCP 로 본다: 처음 볼륨을 만들 때 init.sql 을 돌리는 임시 서버는 소켓으로만 받아서, 소켓으로 보면 init 이 끝나기 전에 healthy 가 된다
+      test: ["CMD", "pg_isready", "-U", "app", "-h", "127.0.0.1"]
+      interval: 1s
+      retries: 30
+
+volumes:
+  db:

@@ -1,0 +1,13 @@
+{
+  "options": {
+    "denyWarnings": true
+  },
+  "ignorePatterns": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/.next/**",
+    "**/.expo/**",
+    "**/target/**",
+    "**/gen/**"
+  ]
+}

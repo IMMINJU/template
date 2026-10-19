@@ -1,0 +1,52 @@
+/* 메모 화면(main.ts)만 쓰는 스타일. 토큰 · 공용 스타일은 style.css */
+
+/* 메모 목록 · 추가 칸 */
+#notes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+}
+#notes:empty {
+  display: none;
+}
+/* 메모: 왼쪽 본문 · 오른쪽 삭제, 태그는 본문 아래 */
+.note {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 8px 12px;
+}
+.note p {
+  min-width: 0;
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+/* 태그 칩: fill 칸에 caption 글자. 누를 수 없어 primary 가 아니다 */
+.tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.tags:empty {
+  display: none;
+}
+.tags li {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: var(--fill);
+}
+#add {
+  display: grid;
+  gap: 12px;
+}
+#add button {
+  justify-self: end;
+}

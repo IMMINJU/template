@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>iStack</title>
+  </head>
+  <body>
+    <main>
+      <h1>메모</h1>
+      <p id="err" role="alert" hidden></p>
+      <ul id="notes"></ul>
+      <form id="add" class="card">
+        <textarea
+          rows="3"
+          maxlength="10000"
+          required
+          aria-label="새 메모"
+        ></textarea>
+        <button>추가</button>
+      </form>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

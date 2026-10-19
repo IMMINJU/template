@@ -1,0 +1,28 @@
+{
+  "name": "@app/mobile",
+  "private": true,
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start",
+    "ios": "expo start --ios",
+    "android": "expo start --android",
+    "typecheck": "tsc -p .",
+    "lint": "oxlint && oxfmt --check",
+    "format": "oxfmt"
+  },
+  "dependencies": {
+    "@app/client": "workspace:*",
+    "@tanstack/react-query": "catalog:",
+    "expo": "catalog:expo",
+    "expo-status-bar": "catalog:expo",
+    "react": "catalog:expo",
+    "react-dom": "catalog:expo",
+    "react-native": "catalog:expo"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:expo",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "typescript": "catalog:expo"
+  }
+}

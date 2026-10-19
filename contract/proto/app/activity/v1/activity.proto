@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package app.activity.v1;
+
+option java_multiple_files = true;
+
+// 무엇을 했는지 남기는 기록. activity 서버가 구현하고, notes 가 메모를 쓸 때마다 부른다
+service ActivityService {
+  // action 이 비었거나 note_id 가 양수가 아니면 INVALID_ARGUMENT
+  rpc Record(RecordRequest) returns (RecordResponse);
+}
+
+message RecordRequest {
+  // note.created · note.updated · note.deleted
+  string action = 1;
+  int64 note_id = 2;
+}
+
+message RecordResponse {}

@@ -1,0 +1,51 @@
+[project]
+name = "app-tags"
+version = "0.0.0"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.143.3",
+  "uvicorn>=0.54.0",
+  "grpcio>=1.84.0",
+  "protobuf>=6.31.1",
+  "psycopg[binary,pool]>=3.3.6",
+  "alembic>=1.20.0",
+]
+
+[dependency-groups]
+dev = [
+  "grpcio-tools>=1.84.0",
+  "httpx>=0.28.1",
+  "mypy-protobuf>=5.1.0",
+  "pytest>=9.1.1",
+  "pyrefly>=1.4.0",
+  "ruff>=0.14.0",
+  "types-grpcio>=1.84.0.20260928",
+]
+
+[tool.uv]
+package = false
+
+# 마이그레이션 (migrations/, 서버가 뜰 때 storage/db.py 의 migrate()). CLI 는 이 폴더에서 uv run alembic ...
+[tool.alembic]
+script_location = "%(here)s/migrations"
+prepend_sys_path = ["."]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# 파일 = {METHOD}_specs.py, 순수 함수 단위 테스트는 *_test.py
+python_files = ["*_specs.py", "*_test.py"]
+# 디렉터리마다 같은 파일 이름(GET_specs.py)이 있어도 되게
+addopts = "--import-mode=importlib"
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+extend-exclude = ["gen"]
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.pyrefly]
+project-includes = ["server", "migrations", "tests"]
+# contract/proto 에서 만든 gRPC 코드 (python -m server.gen proto)
+search-path = [".", "gen"]

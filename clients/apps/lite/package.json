@@ -1,0 +1,21 @@
+{
+  "name": "@app/lite",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc -p .",
+    "lint": "oxlint && oxfmt --check",
+    "format": "oxfmt"
+  },
+  "dependencies": {
+    "@app/client": "workspace:*"
+  },
+  "devDependencies": {
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  }
+}

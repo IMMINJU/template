@@ -1,0 +1,20 @@
+{
+  "name": "initializer-stack",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.6.0",
+  "scripts": {
+    "dev": "pnpm infra && pnpm --filter @app/notes --filter @app/tags --filter @app/activity --filter @app/templates --filter @app/web --parallel dev",
+    "test": "pnpm infra && pnpm -r test",
+    "gen": "pnpm --filter @app/contract gen:proto && pnpm --filter @app/notes gen && pnpm --filter @app/tags gen && pnpm --filter @app/activity gen && pnpm --filter @app/templates gen && pnpm --filter @app/contract gen:types",
+    "typecheck": "pnpm gen && pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "format": "pnpm -r format",
+    "infra": "docker compose -f docker/docker-compose.middleware.yaml up -d --wait",
+    "infra:down": "docker compose -f docker/docker-compose.middleware.yaml down",
+    "stack": "docker compose -f docker/docker-compose.yaml up -d --build --wait && sh docker/smoke.sh",
+    "stack:down": "docker compose -f docker/docker-compose.yaml down",
+    "rename": "node scripts/rename.mjs",
+    "drop": "node scripts/drop.mjs"
+  }
+}

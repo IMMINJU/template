@@ -1,0 +1,4 @@
+# Gradle wrapper: 배치 파일은 Windows 줄바꿈이어야 레이블(GOTO)이 깨지지 않는다
+*.bat text eol=crlf
+gradlew text eol=lf
+*.jar binary

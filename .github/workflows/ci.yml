@@ -1,0 +1,61 @@
+# PR · main 검사. job 하나(`CI`)가 로컬과 같은 루트 명령을 차례로 돌린다. 브랜치 보호의 필수 검사도 이것 하나
+# 전체 스택(이미지 · smoke)은 로컬에서: pnpm stack. proto 호환은 변경 전 계약과 비교한다
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  merge_group:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with: { fetch-depth: 0 }
+      - uses: pnpm/action-setup@v6.1.0
+      - uses: actions/setup-node@v7.1.0
+        with: { node-version-file: .nvmrc, cache: pnpm }
+      - uses: actions/setup-java@v6.1.0
+        with: { distribution: temurin, java-version: 25 }
+      - uses: gradle/actions/setup-gradle@v6.4.0
+      - uses: astral-sh/setup-uv@v10.3.0
+        with: { enable-cache: true }
+      - uses: actions/setup-go@v7.0.0
+        with: { go-version-file: servers/templates/go.mod, cache-dependency-path: servers/templates/go.sum }
+      - run: pnpm install --frozen-lockfile
+      - name: proto 호환
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.event.before }}
+        run: |
+          # 첫 push 는 이전 커밋이 0000..., force push 는 덮어쓴 커밋이라 checkout 에 없다
+          if ! git cat-file -e "$BASE_SHA^{commit}" 2>/dev/null; then
+            echo "::notice::비교할 이전 커밋이 없어(첫 push · force push) proto 호환 검사를 건너뛴다"
+          else
+            pnpm --filter @app/contract exec buf breaking --against "../.git#ref=$BASE_SHA,subdir=contract"
+          fi
+      # 템플릿 스크립트가 바꿀 곳이 모두 그대로 있는가 (템플릿으로 만든 저장소에서 지운 스크립트는 건너뛴다)
+      - name: 템플릿 스크립트 목록
+        run: for s in rename drop; do [ ! -f "scripts/$s.mjs" ] || node "scripts/$s.mjs" --check; done
+      - run: pnpm infra
+      # typecheck 가 gen 을 먼저 돌린다. 생성물이 커밋과 다르면 pnpm gen 결과를 커밋하지 않은 것
+      - run: pnpm typecheck
+      - name: 생성물이 커밋과 같은가
+        run: |
+          if [ -n "$(git status --porcelain contract)" ]; then
+            git status --short contract
+            echo "::error::pnpm gen 결과가 커밋과 다르다. 로컬에서 pnpm gen 을 돌려 함께 커밋한다"
+            exit 1
+          fi
+      - run: pnpm lint
+      - run: pnpm -r test

@@ -1,0 +1,5 @@
+# example 의 주소 · timeout. 키의 example = ExampleConfig 의 @ImportHttpServices(group). 기본 주소는 아무것도 듣지 않는 로컬 포트
+spring.http.serviceclient.example:
+  base-url: ${EXAMPLE_API_URL:http://127.0.0.1:9999}
+  connect-timeout: 2s
+  read-timeout: 5s

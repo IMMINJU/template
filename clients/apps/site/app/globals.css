@@ -1,0 +1,93 @@
+/* 색은 DESIGN.md 토큰 (다크는 -dark) */
+:root {
+  color-scheme: light dark;
+  --page: #f2f2f7;
+  --surface: #ffffff;
+  --ink: #1d1d1f;
+  --fill: rgba(118, 118, 128, 0.12);
+  --warn: #ff9500;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.04);
+  font:
+    14px/1.45 -apple-system,
+    BlinkMacSystemFont,
+    'Apple SD Gothic Neo',
+    system-ui,
+    sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: #000000;
+    --surface: #1c1c1e;
+    --ink: #f5f5f7;
+    --fill: rgba(118, 118, 128, 0.24);
+    --warn: #ff9f0a;
+    --shadow: none;
+  }
+}
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+}
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--ink) 30%, transparent);
+  outline-offset: 2px;
+}
+main {
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+}
+h1 {
+  font-size: 22px;
+  margin: 0;
+}
+p {
+  margin: 0;
+}
+/* 카드: 테두리 없이 배경 위에 뜬 면. 세로로 쌓는다 */
+.card {
+  background: var(--surface);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+}
+ul:empty {
+  display: none;
+}
+/* 메모: 본문, 그 아래 태그 */
+.note {
+  display: grid;
+  gap: 8px;
+}
+.note p {
+  min-width: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+/* 태그 칩: fill 칸에 caption 글자. 누를 수 없어 primary 가 아니다 */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.tags li {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: var(--fill);
+}
+[role='alert'] {
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--warn) 14%, var(--surface));
+  white-space: pre-wrap;
+}

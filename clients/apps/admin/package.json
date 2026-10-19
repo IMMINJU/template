@@ -1,0 +1,25 @@
+{
+  "name": "@app/admin",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "vue-tsc -p .",
+    "lint": "oxlint && oxfmt --check",
+    "format": "oxfmt"
+  },
+  "dependencies": {
+    "@app/client": "workspace:*",
+    "@tanstack/vue-query": "catalog:",
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "catalog:",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "typescript": "catalog:ts6",
+    "vite": "catalog:",
+    "vue-tsc": "catalog:"
+  }
+}

@@ -1,0 +1,10 @@
+# TS 서버용 코드 (gen/). 다른 언어 서버는 자기 빌드 도구로 proto/ 에서 생성한다
+version: v2
+inputs:
+  - directory: proto
+clean: true
+plugins:
+  - local: protoc-gen-es
+    out: gen
+    # js + d.ts: Node 가 .ts 를 직접 실행할 때 enum 같은 비지울 수 있는 문법이 없게
+    opt: [target=js+dts, import_extension=js]

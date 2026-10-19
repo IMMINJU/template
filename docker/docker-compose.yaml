@@ -1,0 +1,57 @@
+# 전체 스택: 인프라 + 서버 · 웹 앱 이미지. pnpm stack 이 띄우고 smoke.sh 로 확인한다
+# 이미지마다 컨텍스트는 그 폴더, 저장소 루트는 workspace (lockfile · contract · @app/client)
+# 앱은 자기 프록시(nginx · next)로 부르는 서버를 바로 부르고, 서버끼리는 이 네트워크 안에서 gRPC 로 부른다 (notes → tags:9002 · activity:9001).
+# 밖에는 HTTP 만 이 맥에 연다
+name: initializer-stack
+
+include:
+  - docker-compose.middleware.yaml
+
+x-server: &server
+  environment: { PGHOST: db }
+  depends_on: { db: { condition: service_healthy } }
+
+services:
+  notes:
+    <<: *server
+    build: { context: ../servers/notes, additional_contexts: { workspace: .. } }
+    environment: { PGHOST: db, TAGS_GRPC: "http://tags:9002", ACTIVITY_GRPC: "http://activity:9001" }
+    # 저장할 때 tags · activity 를 부른다: notes 만 띄워도 둘이 같이 뜨게
+    depends_on: { db: { condition: service_healthy }, tags: { condition: service_started }, activity: { condition: service_started } }
+    ports: ["127.0.0.1:${NOTES_PORT:-8000}:8000"]
+
+  activity:
+    <<: *server
+    build: { context: ../servers/activity, additional_contexts: { workspace: .. } }
+    ports: ["127.0.0.1:${ACTIVITY_PORT:-8001}:8001"]
+
+  tags:
+    <<: *server
+    build: { context: ../servers/tags, additional_contexts: { workspace: .. } }
+    ports: ["127.0.0.1:${TAGS_PORT:-8002}:8002"]
+
+  templates:
+    <<: *server
+    build: { context: ../servers/templates }
+    ports: ["127.0.0.1:${TEMPLATES_PORT:-8003}:8003"]
+
+  # 웹 앱은 같은 출처 /api/<서버> 를 그 서버로 넘긴다 (nginx · next, 주소는 이미지 기본 http://<서버>:<포트>). depends_on 은 부르는 서버
+  web:
+    build: { context: ../clients/apps/web, additional_contexts: { workspace: .. } }
+    ports: ["127.0.0.1:${WEB_PORT:-5280}:8080"]
+    depends_on: [notes, templates]
+
+  admin:
+    build: { context: ../clients/apps/admin, additional_contexts: { workspace: .. } }
+    ports: ["127.0.0.1:${ADMIN_PORT:-5281}:8080"]
+    depends_on: [tags, activity, templates]
+
+  site:
+    build: { context: ../clients/apps/site, additional_contexts: { workspace: .. } }
+    ports: ["127.0.0.1:${SITE_PORT:-5282}:3000"]
+    depends_on: [notes]
+
+  lite:
+    build: { context: ../clients/apps/lite, additional_contexts: { workspace: .. } }
+    ports: ["127.0.0.1:${LITE_PORT:-5283}:8080"]
+    depends_on: [notes]

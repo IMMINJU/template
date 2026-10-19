@@ -1,0 +1,27 @@
+{
+  "name": "@app/web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc -p .",
+    "lint": "oxlint && oxfmt --check",
+    "format": "oxfmt"
+  },
+  "dependencies": {
+    "@app/client": "workspace:*",
+    "@tanstack/react-query": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  }
+}

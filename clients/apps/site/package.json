@@ -1,0 +1,27 @@
+{
+  "name": "@app/site",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 5282",
+    "build": "next build",
+    "start": "next start -p 5282",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint && oxfmt --check",
+    "format": "oxfmt"
+  },
+  "dependencies": {
+    "@app/client": "workspace:*",
+    "@tanstack/react-query": "catalog:",
+    "next": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "typescript": "catalog:ts6"
+  }
+}

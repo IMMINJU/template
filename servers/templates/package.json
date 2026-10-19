@@ -1,0 +1,13 @@
+{
+  "name": "@app/templates",
+  "private": true,
+  "scripts": {
+    "dev": "set -a && { [ ! -f .env ] || . ./.env; } && set +a && go run .",
+    "start": "set -a && { [ ! -f .env ] || . ./.env; } && set +a && go run .",
+    "test": "go test -p 1 ./...",
+    "gen": "go run . gen",
+    "typecheck": "go vet ./...",
+    "lint": "test -z \"$(gofmt -l .)\" || { gofmt -l .; exit 1; } && go vet ./...",
+    "format": "gofmt -w ."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "@app/tags",
+  "private": true,
+  "scripts": {
+    "dev": "uv run python -m server.gen proto && set -a && { [ ! -f .env ] || . ./.env; } && set +a && uv run uvicorn server.main:app --reload --host ${HOST:-127.0.0.1} --port ${PORT:-8002}",
+    "test": "uv run python -m server.gen proto && uv run pytest -q",
+    "gen": "uv run python -m server.gen",
+    "lint": "uv run ruff check . && uv run ruff format --check .",
+    "typecheck": "uv run python -m server.gen proto && uv run pyrefly check",
+    "format": "uv run ruff check --fix . && uv run ruff format ."
+  }
+}

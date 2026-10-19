@@ -1,0 +1,3 @@
+# Tauri 2.12 는 Rust 1.95+ (edition 2024). 이 폴더에서만 이 버전을 쓴다 (rustup 이 처음에 받는다)
+[toolchain]
+channel = "1.99.1"

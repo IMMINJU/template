@@ -1,0 +1,24 @@
+{
+  "name": "@app/desktop",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tauri dev",
+    "build": "tauri build",
+    "vite": "vite",
+    "typecheck": "tsc -p .",
+    "lint": "oxlint && oxfmt --check",
+    "format": "oxfmt"
+  },
+  "dependencies": {
+    "@app/client": "workspace:*",
+    "@tauri-apps/plugin-http": "catalog:"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "catalog:",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  }
+}
